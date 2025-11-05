@@ -154,36 +154,18 @@ async function handleTTS(content: string) {
       model: chatStore.selectedTTSModel,
     })
 
-    // 使用FileReader将Blob转换为Base64 data URL
-    // 这比btoa()更可靠，避免二进制数据转换问题
+    // 创建 Blob URL（浏览器原生支持，不需要Range请求）
     const blob = new Blob([res], { type: 'audio/wav' })
+    const blobUrl = URL.createObjectURL(blob)
 
-    // 调试日志
     console.log('音频Blob大小:', blob.size, 'bytes')
-    console.log('音频Blob类型:', blob.type)
-
-    const dataUrl = await new Promise<string>((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        const result = reader.result as string
-        console.log('Data URL长度:', result.length)
-        console.log('Data URL前缀:', result.substring(0, 50))
-        resolve(result)
-      }
-      reader.onerror = (error) => {
-        console.error('FileReader错误:', error)
-        reject(error)
-      }
-      reader.readAsDataURL(blob)
-    })
+    console.log('音频Blob URL:', blobUrl)
 
     chatStore.addMessage({
-      content: dataUrl,
+      content: blobUrl,
       chatType: 'bot',
       isAudio: true,
     })
-
-    console.log('音频消息已添加到聊天列表')
 
     ElMessage.success('音频生成成功！')
     scrollToBottom('chat-messages')

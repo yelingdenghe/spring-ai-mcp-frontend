@@ -18,6 +18,18 @@ watch(
     scrollToBottom('chat-messages')
   },
 )
+
+// 音频加载完成
+function handleAudioLoaded(event: Event) {
+  const audio = event.target as HTMLAudioElement
+  console.log('音频加载成功，时长:', audio.duration, '秒')
+}
+
+// 音频加载错误
+function handleAudioError(event: Event) {
+  const audio = event.target as HTMLAudioElement
+  console.error('音频加载失败:', audio.error)
+}
 </script>
 
 <template>
@@ -40,7 +52,13 @@ watch(
 
       <!-- 音频消息 -->
       <div v-if="item.isAudio" class="text audio-container">
-        <audio controls :src="item.content" preload="auto"></audio>
+        <audio
+          controls
+          :src="item.content"
+          preload="metadata"
+          @error="handleAudioError"
+          @loadedmetadata="handleAudioLoaded"
+        ></audio>
         <a :href="item.content" download="generated_audio.wav" class="download-btn"> 下载音频 </a>
       </div>
 
@@ -126,11 +144,14 @@ watch(
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 320px;
 }
 
 .audio-container audio {
   width: 100%;
-  max-width: 300px;
+  min-width: 320px;
+  height: 40px;
+  outline: none;
 }
 
 .download-btn {

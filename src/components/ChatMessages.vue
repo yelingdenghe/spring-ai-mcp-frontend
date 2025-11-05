@@ -20,9 +20,8 @@ watch(
 )
 
 // 音频加载完成
-function handleAudioLoaded(event: Event) {
-  const audio = event.target as HTMLAudioElement
-  console.log('音频加载成功，时长:', audio.duration, '秒')
+function handleAudioLoaded(_event: Event) {
+  // 预留用于后续功能扩展
 }
 
 // 音频加载错误

@@ -158,9 +158,6 @@ async function handleTTS(content: string) {
     const blob = new Blob([res], { type: 'audio/wav' })
     const blobUrl = URL.createObjectURL(blob)
 
-    console.log('音频Blob大小:', blob.size, 'bytes')
-    console.log('音频Blob URL:', blobUrl)
-
     chatStore.addMessage({
       content: blobUrl,
       chatType: 'bot',

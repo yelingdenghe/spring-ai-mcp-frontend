@@ -39,8 +39,9 @@ watch(
       </div>
 
       <!-- 音频消息 -->
-      <div v-if="item.isAudio" class="text">
-        <audio controls :src="item.content"></audio>
+      <div v-if="item.isAudio" class="text audio-container">
+        <audio controls :src="item.content" preload="auto"></audio>
+        <a :href="item.content" download="generated_audio.wav" class="download-btn"> 下载音频 </a>
       </div>
 
       <!-- 视频消息 -->
@@ -119,6 +120,33 @@ watch(
   max-width: 300px;
   border-radius: 5px;
   display: block;
+}
+
+.audio-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.audio-container audio {
+  width: 100%;
+  max-width: 300px;
+}
+
+.download-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 12px;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.download-btn:hover {
+  background-color: #357abd;
 }
 
 /* 滚动条样式 */

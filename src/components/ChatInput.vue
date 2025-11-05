@@ -154,12 +154,15 @@ async function handleTTS(content: string) {
       model: chatStore.selectedTTSModel,
     })
 
-    // 将ArrayBuffer转换为Base64 data URL
-    // 避免blob URL不支持Range请求的问题
-    const base64 = btoa(
-      new Uint8Array(res).reduce((data, byte) => data + String.fromCharCode(byte), ''),
-    )
-    const dataUrl = `data:audio/wav;base64,${base64}`
+    // 使用FileReader将Blob转换为Base64 data URL
+    // 这比btoa()更可靠，避免二进制数据转换问题
+    const blob = new Blob([res], { type: 'audio/wav' })
+    const dataUrl = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onloadend = () => resolve(reader.result as string)
+      reader.onerror = reject
+      reader.readAsDataURL(blob)
+    })
 
     chatStore.addMessage({
       content: dataUrl,
@@ -171,6 +174,7 @@ async function handleTTS(content: string) {
     scrollToBottom('chat-messages')
   } catch (error) {
     ElMessage.error('音频生成失败！')
+    console.error('TTS错误:', error)
   } finally {
     chatStore.isTTSGenerating = false
   }

@@ -154,9 +154,15 @@ async function handleTTS(content: string) {
       model: chatStore.selectedTTSModel,
     })
 
-    const url = URL.createObjectURL(new Blob([res], { type: 'audio/wav' }))
+    // 将ArrayBuffer转换为Base64 data URL
+    // 避免blob URL不支持Range请求的问题
+    const base64 = btoa(
+      new Uint8Array(res).reduce((data, byte) => data + String.fromCharCode(byte), ''),
+    )
+    const dataUrl = `data:audio/wav;base64,${base64}`
+
     chatStore.addMessage({
-      content: url,
+      content: dataUrl,
       chatType: 'bot',
       isAudio: true,
     })

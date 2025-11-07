@@ -17,6 +17,9 @@ coverage
 # 本地环境变量文件（包含敏感信息，不提交到 Git）
 .env.local
 .env.*.local
+.env
+.env.development.local
+.env.local.example
 
 # Editor directories and files
 .vscode/*
@@ -38,3 +41,5 @@ coverage
 
 # Vitest
 __screenshots__/
+/.env.development
+/.env.production

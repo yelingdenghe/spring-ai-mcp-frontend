@@ -10,7 +10,7 @@ import { ElMessage } from 'element-plus'
 const instance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '',
   withCredentials: true,
-  timeout: 120000,
+  timeout: 600000,
 })
 
 // 请求拦截器

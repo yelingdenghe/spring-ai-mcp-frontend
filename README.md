@@ -90,7 +90,7 @@ Spring AI Frontend Vue 是一个现代化的 AI 智能对话前端应用，为 S
 
 - ✅ Node.js 20.19.0+ 或 22.12.0+
 - ✅ npm 或 pnpm
-- ✅ Spring AI 后端服务 [后端项目地址](https://github.com/yelingdenghe/spring-ai-mcp-backend.git)
+- ✅ Spring AI 后端服务 [后端项目地址](https://github.com/yelingdenghe/spring-ai-mcp-backend)
 
 ### 安装步骤
 
